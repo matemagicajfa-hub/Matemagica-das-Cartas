@@ -8,7 +8,7 @@
   body { font-family: Arial, sans-serif; background:#081229; color:#fff; text-align:center; padding:20px; }
   h1 { color:#ffd54f; }
   .avatar { width:90px; margin:10px; vertical-align:middle; }
-  .pergunta { margin:18px 0; font-size:1rem; background:rgba(255,255,255,0.03); padding:12px; border-radius:8px; display:inline-block; width:95%; max-width:1000px; }
+  .pergunta { margin:18px 0; background:rgba(255,255,255,0.03); padding:12px; border-radius:8px; display:inline-block; width:95%; max-width:1000px; }
   .tabela-cartas { display:flex; flex-wrap:wrap; justify-content:center; }
   .enviar { background:#ff6f00; border:none; color:#fff; padding:10px 18px; font-size:1rem; border-radius:8px; cursor:pointer; margin-top:12px; }
   .resultado { margin-top:22px; font-size:1.2rem; font-weight:bold; color:#ffd54f; }
@@ -18,8 +18,8 @@
   .mute-btn { margin-left:8px; padding:6px 10px; border-radius:6px; border:none; cursor:pointer; }
   
 .scene {
-  width: 60px;
-  height: 90px;
+  width: 80px;
+  height: 120px;
   margin: 4px;
   perspective: 600px;
   display:inline-block;
@@ -29,11 +29,12 @@
   height: 100%;
   position: relative;
   transform-style: preserve-3d;
-  transition: transform 0.6s;
+  transition: transform 0.8s;
   border-radius: 8px;
   box-shadow: 2px 2px 6px rgba(0,0,0,0.4);
+  transform: rotateY(0deg); /* começa virada para baixo */
 }
-.carta.flip {
+.carta.revelada {
   transform: rotateY(180deg);
 }
 .face {
@@ -48,19 +49,20 @@
   justify-content:space-between;
   font-weight:bold;
 }
-.face.frente {
-  background:#fff;
-}
-.face.verso {
-  background:#004;
-  transform: rotateY(180deg);
-}
-.valor { font-size: 14px; margin:4px; }
+.face.frente { background:#fff; transform: rotateY(180deg); }
+.face.verso { background:#005; } /* verso azul */
+.valor { font-size: 16px; margin:4px; }
 .valor.topo { text-align:left; }
 .valor.baixo { text-align:right; transform: rotate(180deg); }
-.naipe { font-size:28px; text-align:center; }
+.naipe { font-size:32px; text-align:center; }
 .red { color:red; }
 .black { color:black; }
+
+@media (max-width:600px){
+  .scene { width: 65px; height: 95px; }
+  .valor { font-size: 14px; }
+  .naipe { font-size: 26px; }
+}
 
 </style>
 </head>
@@ -1811,10 +1813,10 @@
         s.style.animation='piscar '+(1+Math.random()*3)+'s infinite alternate';
         container.appendChild(s);
       }
-      // animação flip das cartas
+      // animação flip automático
       const cartas = document.querySelectorAll('.carta');
       cartas.forEach((carta,i)=>{
-        setTimeout(()=>{{ carta.classList.add('flip'); }}, i*100);
+        setTimeout(()=>{{ carta.classList.add('revelada'); }}, i*120);
       });
     })();
   </script>
