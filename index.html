@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Adivinhe a Carta 🎩🃏</title>
+<style>
+  body { font-family: Arial, sans-serif; background:#081229; color:#fff; text-align:center; padding:20px; }
+  h1 { color:#ffd54f; }
+  .avatar { width:90px; margin:10px; vertical-align:middle; }
+  .pergunta { margin:18px 0; font-size:1rem; background:rgba(255,255,255,0.03); padding:12px; border-radius:8px; display:inline-block; width:95%; max-width:900px; }
+  .tabela { border-collapse:collapse; margin:6px auto; }
+  .tabela td { padding:6px 10px; border:1px solid rgba(255,255,255,0.08); min-width:36px; text-align:center; background:#fff; color:#111; font-weight:600; }
+  .enviar { background:#ff6f00; border:none; color:#fff; padding:10px 18px; font-size:1rem; border-radius:8px; cursor:pointer; margin-top:12px; }
+  .resultado { margin-top:22px; font-size:1.2rem; font-weight:bold; color:#ffd54f; }
+  .controls { margin-top:10px; }
+  .estrelas { position:fixed; top:0; left:0; width:100%; height:100%; z-index:0; pointer-events:none; }
+  .confetti-canvas { position:fixed; left:0; top:0; width:100%; height:100%; pointer-events:none; z-index:9999; }
+  .mute-btn { margin-left:8px; padding:6px 10px; border-radius:6px; border:none; cursor:pointer; }
+  @media (max-width:600px){ .tabela td{ padding:4px 6px; min-width:24px; } .avatar{width:64px;} }
+</style>
+</head>
+<body>
+  <h1>🎩 Adivinhe a Carta</h1>
+  <p>Pense em uma carta do baralho (52 cartas). Responda "Sim" se a sua carta aparece na tabela, ou "Não" se não aparece.</p>
+  <div>
+    <img src="avatar_barba.png" alt="Mago com barba" class="avatar">
+    <img src="avatar_sem_barba.png" alt="Mago sem barba" class="avatar">
+  </div>
+
+  <form id="formCartas">
+
+    <div class="pergunta" id="pergunta1">
+      <div style="text-align:left; margin-bottom:8px;"><strong>Sua carta está nesta tabela?</strong></div>
+      <div class="tabela-bloco"><h3 style="color:#ffeb3b;">Tabela 1</h3><div style="border:3px solid #ffeb3b; padding:6px; display:inline-block; border-radius:6px; background:#fff;"><table class="tabela"><tr><td>A ♥</td><td>3 ♥</td><td>5 ♥</td><td>7 ♥</td><td>9 ♥</td><td>J ♥</td><td>K ♥</td></tr><tr><td>2 ♦</td><td>4 ♦</td><td>6 ♦</td><td>8 ♦</td><td>10 ♦</td><td>Q ♦</td><td>A ♣</td></tr><tr><td>3 ♣</td><td>5 ♣</td><td>7 ♣</td><td>9 ♣</td><td>J ♣</td><td>K ♣</td><td>2 ♠</td></tr><tr><td>4 ♠</td><td>6 ♠</td><td>8 ♠</td><td>10 ♠</td><td>Q ♠</td><td></td><td></td></tr></table></div></div><br/>
+      <div style="margin-top:8px; text-align:left;">
+        <label><input type="radio" name="p1" value="sim"> Sim</label>
+        &nbsp;&nbsp;&nbsp;
+        <label><input type="radio" name="p1" value="nao"> Não</label>
+      </div>
+    </div>
+    
+    <div class="pergunta" id="pergunta2">
+      <div style="text-align:left; margin-bottom:8px;"><strong>Sua carta está nesta tabela?</strong></div>
+      <div class="tabela-bloco"><h3 style="color:#8bc34a;">Tabela 2</h3><div style="border:3px solid #8bc34a; padding:6px; display:inline-block; border-radius:6px; background:#fff;"><table class="tabela"><tr><td>2 ♥</td><td>3 ♥</td><td>6 ♥</td><td>7 ♥</td><td>10 ♥</td><td>J ♥</td><td>A ♦</td></tr><tr><td>2 ♦</td><td>5 ♦</td><td>6 ♦</td><td>9 ♦</td><td>10 ♦</td><td>K ♦</td><td>A ♣</td></tr><tr><td>4 ♣</td><td>5 ♣</td><td>8 ♣</td><td>9 ♣</td><td>Q ♣</td><td>K ♣</td><td>3 ♠</td></tr><tr><td>4 ♠</td><td>7 ♠</td><td>8 ♠</td><td>J ♠</td><td>Q ♠</td><td></td><td></td></tr></table></div></div><br/>
+      <div style="margin-top:8px; text-align:left;">
+        <label><input type="radio" name="p2" value="sim"> Sim</label>
+        &nbsp;&nbsp;&nbsp;
+        <label><input type="radio" name="p2" value="nao"> Não</label>
+      </div>
+    </div>
+    
+    <div class="pergunta" id="pergunta3">
+      <div style="text-align:left; margin-bottom:8px;"><strong>Sua carta está nesta tabela?</strong></div>
+      <div class="tabela-bloco"><h3 style="color:#03a9f4;">Tabela 3</h3><div style="border:3px solid #03a9f4; padding:6px; display:inline-block; border-radius:6px; background:#fff;"><table class="tabela"><tr><td>4 ♥</td><td>5 ♥</td><td>6 ♥</td><td>7 ♥</td><td>Q ♥</td><td>K ♥</td><td>A ♦</td></tr><tr><td>2 ♦</td><td>7 ♦</td><td>8 ♦</td><td>9 ♦</td><td>10 ♦</td><td>2 ♣</td><td>3 ♣</td></tr><tr><td>4 ♣</td><td>5 ♣</td><td>10 ♣</td><td>J ♣</td><td>Q ♣</td><td>K ♣</td><td>5 ♠</td></tr><tr><td>6 ♠</td><td>7 ♠</td><td>8 ♠</td><td>K ♠</td><td></td><td></td><td></td></tr></table></div></div><br/>
+      <div style="margin-top:8px; text-align:left;">
+        <label><input type="radio" name="p3" value="sim"> Sim</label>
+        &nbsp;&nbsp;&nbsp;
+        <label><input type="radio" name="p3" value="nao"> Não</label>
+      </div>
+    </div>
+    
+    <div class="pergunta" id="pergunta4">
+      <div style="text-align:left; margin-bottom:8px;"><strong>Sua carta está nesta tabela?</strong></div>
+      <div class="tabela-bloco"><h3 style="color:#e91e63;">Tabela 4</h3><div style="border:3px solid #e91e63; padding:6px; display:inline-block; border-radius:6px; background:#fff;"><table class="tabela"><tr><td>8 ♥</td><td>9 ♥</td><td>10 ♥</td><td>J ♥</td><td>Q ♥</td><td>K ♥</td><td>A ♦</td></tr><tr><td>2 ♦</td><td>J ♦</td><td>Q ♦</td><td>K ♦</td><td>A ♣</td><td>2 ♣</td><td>3 ♣</td></tr><tr><td>4 ♣</td><td>5 ♣</td><td>A ♠</td><td>2 ♠</td><td>3 ♠</td><td>4 ♠</td><td>5 ♠</td></tr><tr><td>6 ♠</td><td>7 ♠</td><td>8 ♠</td><td></td><td></td><td></td><td></td></tr></table></div></div><br/>
+      <div style="margin-top:8px; text-align:left;">
+        <label><input type="radio" name="p4" value="sim"> Sim</label>
+        &nbsp;&nbsp;&nbsp;
+        <label><input type="radio" name="p4" value="nao"> Não</label>
+      </div>
+    </div>
+    
+    <div class="pergunta" id="pergunta5">
+      <div style="text-align:left; margin-bottom:8px;"><strong>Sua carta está nesta tabela?</strong></div>
+      <div class="tabela-bloco"><h3 style="color:#ff9800;">Tabela 5</h3><div style="border:3px solid #ff9800; padding:6px; display:inline-block; border-radius:6px; background:#fff;"><table class="tabela"><tr><td>3 ♦</td><td>4 ♦</td><td>5 ♦</td><td>6 ♦</td><td>7 ♦</td><td>8 ♦</td><td>9 ♦</td></tr><tr><td>10 ♦</td><td>J ♦</td><td>Q ♦</td><td>K ♦</td><td>A ♣</td><td>2 ♣</td><td>3 ♣</td></tr><tr><td>4 ♣</td><td>5 ♣</td><td>9 ♠</td><td>10 ♠</td><td>J ♠</td><td>Q ♠</td><td>K ♠</td></tr></table></div></div><br/>
+      <div style="margin-top:8px; text-align:left;">
+        <label><input type="radio" name="p5" value="sim"> Sim</label>
+        &nbsp;&nbsp;&nbsp;
+        <label><input type="radio" name="p5" value="nao"> Não</label>
+      </div>
+    </div>
+    
+    <div class="pergunta" id="pergunta6">
+      <div style="text-align:left; margin-bottom:8px;"><strong>Sua carta está nesta tabela?</strong></div>
+      <div class="tabela-bloco"><h3 style="color:#9c27b0;">Tabela 6</h3><div style="border:3px solid #9c27b0; padding:6px; display:inline-block; border-radius:6px; background:#fff;"><table class="tabela"><tr><td>6 ♣</td><td>7 ♣</td><td>8 ♣</td><td>9 ♣</td><td>10 ♣</td><td>J ♣</td><td>Q ♣</td></tr><tr><td>K ♣</td><td>A ♠</td><td>2 ♠</td><td>3 ♠</td><td>4 ♠</td><td>5 ♠</td><td>6 ♠</td></tr><tr><td>7 ♠</td><td>8 ♠</td><td>9 ♠</td><td>10 ♠</td><td>J ♠</td><td>Q ♠</td><td>K ♠</td></tr></table></div></div><br/>
+      <div style="margin-top:8px; text-align:left;">
+        <label><input type="radio" name="p6" value="sim"> Sim</label>
+        &nbsp;&nbsp;&nbsp;
+        <label><input type="radio" name="p6" value="nao"> Não</label>
+      </div>
+    </div>
+    
+    <div style="margin-top:18px;">
+      <button type="button" class="enviar" onclick="revelarCarta()">Revelar Carta</button>
+      <button type="button" class="enviar" onclick="participarNovamente()">🔄 Participar novamente</button>
+    </div>
+  </form>
+
+  <div class="controls">
+    <button id="toggleVoice" class="mute-btn">🔊 Voz: Ligada</button>
+    <button id="toggleSound" class="mute-btn">🔈 Som mágico: Ligado</button>
+  </div>
+
+  <div class="resultado" id="resultado">Nenhuma carta revelada ainda</div>
+
+  <div class="estrelas"></div>
+  <canvas id="confettiCanvas" class="confetti-canvas"></canvas>
+
+  <!-- VLibras -->
+  <div vw class="enabled">
+    <div vw-access-button class="active"></div>
+    <div vw-plugin-wrapper>
+      <div class="vw-plugin-top-wrapper"></div>
+    </div>
+  </div>
+  <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+  <script>new window.VLibras.Widget('https://vlibras.gov.br/app');</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+  <script>
+    // Dados de cartas (1..52)
+    const ranks = ["A","2","3","4","5","6","7","8","9","10","J","Q","K"];
+    const suits = [{"sym":"♥","name":"Copas"},{"sym":"♦","name":"Ouros"},{"sym":"♣","name":"Paus"},{"sym":"♠","name":"Espadas"}];
+
+    let voiceEnabled = true;
+    let soundEnabled = true;
+
+    document.getElementById('toggleVoice').addEventListener('click', function(){
+      voiceEnabled = !voiceEnabled;
+      this.textContent = voiceEnabled ? '🔊 Voz: Ligada' : '🔇 Voz: Desligada';
+    });
+    document.getElementById('toggleSound').addEventListener('click', function(){
+      soundEnabled = !soundEnabled;
+      this.textContent = soundEnabled ? '🔈 Som mágico: Ligado' : '🔈 Somágico: Desligado';
+    });
+
+    function speak(text){
+      if(!voiceEnabled) return;
+      try{
+        const u = new SpeechSynthesisUtterance(text);
+        u.lang = 'pt-BR';
+        speechSynthesis.cancel();
+        speechSynthesis.speak(u);
+      }catch(e){ console.warn(e); }
+    }
+
+    function playSound(){
+      if(!soundEnabled) return;
+      const a = document.getElementById('somMagico');
+      if(a) a.play().catch(()=>{});
+    }
+
+    function revelarCarta(){
+      // soma os valores onde marcou 'sim'
+      let numero = 0;
+
+      var radios1 = document.getElementsByName('p1');
+      var marked1 = null;
+      for(var r=0;r<radios1.length;r++){ if(radios1[r].checked) marked1 = radios1[r].value; }
+      if(marked1 === 'sim') numero += 1;
+    
+      var radios2 = document.getElementsByName('p2');
+      var marked2 = null;
+      for(var r=0;r<radios2.length;r++){ if(radios2[r].checked) marked2 = radios2[r].value; }
+      if(marked2 === 'sim') numero += 2;
+    
+      var radios3 = document.getElementsByName('p3');
+      var marked3 = null;
+      for(var r=0;r<radios3.length;r++){ if(radios3[r].checked) marked3 = radios3[r].value; }
+      if(marked3 === 'sim') numero += 4;
+    
+      var radios4 = document.getElementsByName('p4');
+      var marked4 = null;
+      for(var r=0;r<radios4.length;r++){ if(radios4[r].checked) marked4 = radios4[r].value; }
+      if(marked4 === 'sim') numero += 8;
+    
+      var radios5 = document.getElementsByName('p5');
+      var marked5 = null;
+      for(var r=0;r<radios5.length;r++){ if(radios5[r].checked) marked5 = radios5[r].value; }
+      if(marked5 === 'sim') numero += 16;
+    
+      var radios6 = document.getElementsByName('p6');
+      var marked6 = null;
+      for(var r=0;r<radios6.length;r++){ if(radios6[r].checked) marked6 = radios6[r].value; }
+      if(marked6 === 'sim') numero += 32;
+    
+      if(numero <= 0 || numero > 52){
+        document.getElementById('resultado').innerHTML = 'Não foi possível identificar a carta — verifique se todas as perguntas foram respondidas corretamente.';
+        speak('Não foi possível identificar a carta. Por favor responda todas as perguntas.');
+        return;
+      }
+      // mapear para carta: 1..52
+      const idx = numero - 1;
+      const rank = ranks[idx % 13];
+      const suit = suits[Math.floor(idx / 13)];
+      const cardLabel = rank + ' ' + suit.sym + ' (' + rank + ' de ' + suit.name + ')';
+      document.getElementById('resultado').innerHTML = '🎩 <strong>A carta que você pensou é: ' + cardLabel + '!</strong><br><br>🙌 Agradecemos a sua participação.<br>👨‍🏫 Professores: Rafael Oliveira e Ronaldo Soares';
+      speak('A carta que você pensou é ' + rank + ' de ' + suit.name);
+      playSound();
+      confetti({ particleCount: 180, spread: 90, origin: { y: 0.6 } });
+    }
+
+    function participarNovamente(){
+      document.getElementById('formCartas').reset();
+      document.getElementById('resultado').textContent = 'Nenhuma carta revelada ainda';
+      window.scrollTo({top:0, behavior:'smooth'});
+    }
+
+    // estrelas no fundo
+    (function(){
+      var container = document.querySelector('.estrelas');
+      for(var i=0;i<60;i++){
+        var s = document.createElement('div');
+        s.className='estrela';
+        s.style.top=(Math.random()*100)+'vh';
+        s.style.left=(Math.random()*100)+'vw';
+        s.style.width=(1+Math.random()*3)+'px';
+        s.style.height=s.style.width;
+        s.style.background='rgba(255,255,255,'+(0.2+Math.random()*0.8)+')';
+        s.style.position='absolute';
+        s.style.borderRadius='50%';
+        s.style.animation='piscar '+(1+Math.random()*3)+'s infinite alternate';
+        container.appendChild(s);
+      }
+    })();
+  </script>
+
+  <audio id="somMagico" src="som-magico.mp3" preload="auto"></audio>
+</body>
+</html>
